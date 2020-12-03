@@ -30,82 +30,84 @@ def create_scorecard():
     pass
 
 
-def roll_dice(number_of_rolls: int) -> tuple:
+def roll_dice(current_hand: list) -> list:
     """
-    Simulate rolling a die 5 times.
+    Roll dice to create a 5-dice hand.
 
-    Return a tuple of random integers between 1 and 6 inclusively.
+    Return a list of 5 random integers between 1 and 6 inclusively.
 
+    :param current_hand: a potentially empty list representing face values of rolled dice.
+    :return: a list of integers in ascending order
 
-    :param number_of_rolls: an integer that specifies the number of integers to be added to the tuple.
-    :return: a tuple of integers
-    """
-    pass
-
-
-def validate_upper(current_hand: tuple) -> list:
-    """
-    Return a list of all valid upper section hands that can be formed from the player's current hand.
-
-    Examine current 5-dice hand for the presence of numbers 1-6.
-
-    :param current_hand: a tuple representing face values of rolled dice.
-    :precondition: Hand must contain 5 integers between 1 and 6 inclusively.
-                    Numbers in the tuple should appear in ascending order.
-    :postcondition: Determines if the hand contains any hands that can be scored in the upper section of Yahtzee.
-    :return: a list of strings
+    >>> roll_dice([])
+    [1, 2, 3, 5, 6]
+    >>> roll_dice([1, 3, 5])
+    [1, 3, 5, 6, 6]
+    >>> roll_dice([1, 1, 1, 1, 2])
+    [1, 1, 1, 1, 2]
     """
     pass
 
 
-def validate_lower(current_hand: tuple) -> list:
-    """
-    Return a list of all valid lower section hands that can be formed from the player's current hand.
-
-    Examine current 5-dice hand for presence of three of a kind, four of a kind, full house, small straight,
-    large straight, five of a kind (YAHTZEE), and chance.
-
-    :param current_hand: a tuple representing face values of rolled dice.
-    :precondition: Hand must contain 5 integers between 1 and 6 inclusively.
-                    Numbers in the tuple should appear in ascending order.
-    :postcondition: Determines if the hand contains any hands that can be scored in the lower section of Yahtzee.
-    :return: a list of strings
-    """
-    pass
-
-
-def re_roll(current_hand: tuple) -> tuple:
+def re_roll(current_hand: list) -> list:
     """
     Simulate rolling X number of dice depending on player input.
 
-    Player will be prompted to select which values in the tuple they wish to keep. These values will be added to a list.
+    Player will be prompted to select which values in the list they wish to keep. These values will be added to a list.
     If the list length is 5, the player has indicated they wish to commit a score. Return "commit".
-    If the list length is less than 5, roll dice and append each new face value to the list such that the length is 5.
+    If the list length is less than 5, return the current hand.
 
-    :param current_hand: a tuple representing face values of rolled dice.
+    :param current_hand: a list representing face values of rolled dice.
     :precondition: Hand must contain 5 integers between 1 and 6 inclusively.
-                    Numbers in the tuple should appear in ascending order.
+                    Numbers in the list should appear in ascending order.
     :postcondition: Determines if the hand contains any hands that can be scored in the lower section of Yahtzee.
-    :return: either a string or a tuple of integers
+    :return: either a string or a list of integers
     """
     pass
 
 
-def commit_score(current_hand: tuple, valid_hands: list, scorecard: dict):
+def commit_score(current_hand: list, scorecard: dict):
     """
     Prompt player to commit their current hand as a value on their Yahtzee scorecard.
 
     Prompt player to input the type of hand they would like to score. E.g. 'aces'
-    If the input is in valid_hands, calculate the point value of that hand and log it on the scorecard.
+    If the inputted hand already has points assigned in the scorecard, display an error message and re-prompt player.
+    Otherwise, call the point calculator and append the returned value into the scorecard.
 
-    :param current_hand: a tuple representing face values of rolled dice.
-    :param valid_hands: a list of strings representing valid hands which can be formed from the current player's hand.
+    :param current_hand: a list representing face values of rolled dice.
+    :param scorecard: a dictionary representing current player's scorecard.
     :param scorecard: a dictionary representing current player's scorecard.
     :precondition: Current hand must contain 5 integers between 1 and 6 inclusively.
                     Numbers in current hand should appear in ascending order.
-                    Valid hands list should not be empty.
                     Scorecard should contain at least one value that is None.
     :postcondition: Calculates and appends point value into current player's scorecard.
+    :return: scorecard dictionary with updated point values.
+    """
+    pass
+
+
+def point_calculator(current_hand: list, hand: str) -> int:
+    """
+    Calculate point value that can be scored with current hand.
+
+    :param current_hand: a list representing face values of rolled dice.
+    :param hand: a string representing the hand value to be calculated.
+    :return: an integer
+
+    >>> point_calculator([1, 1, 1, 2, 2], 'aces')
+    3
+    >>> point_calculator([1, 1, 1, 2, 2], 'twos')
+    4
+    >>> point_calculator([1, 1, 1, 2, 2], 'full house')
+    25
+    >>> point_calculator([5, 5, 5, 5, 6], '4 of a kind')
+    26
+    >>> point_calculator([5, 5, 5, 5, 6], '3 of a kind')
+    26
+    >>> point_calculator([1, 1, 1, 1, 1], 'yahtzee')
+    50
+    >>> point_calculator([1, 2, 3, 4, 5], 'yahtzee')
+    0
     """
     pass
 
