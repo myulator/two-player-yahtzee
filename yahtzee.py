@@ -55,12 +55,12 @@ def re_roll(current_hand: list) -> list:
 
     Player will be prompted to select which values in the list they wish to keep. These values will be added to a list.
     If the list length is 5, the player has indicated they wish to commit a score. Return "commit".
-    If the list length is less than 5, return the current hand.
+    If the list length is less than 5, return the list.
 
     :param current_hand: a list representing face values of rolled dice.
     :precondition: Hand must contain 5 integers between 1 and 6 inclusively.
                     Numbers in the list should appear in ascending order.
-    :postcondition: Determines if the hand contains any hands that can be scored in the lower section of Yahtzee.
+    :postcondition: Direct player to commit their score or returns their new hand after re-rolling dice.
     :return: either a string or a list of integers
     """
     pass
@@ -92,6 +92,10 @@ def point_calculator(current_hand: list, hand: str) -> int:
 
     :param current_hand: a list representing face values of rolled dice.
     :param hand: a string representing the hand value to be calculated.
+    :precondition: Current hand must contain 5 integers between 1 and 6 inclusively.
+                    Numbers in current hand should appear in ascending order.
+                    The hand string should contain a valid type of hand in yahtzee.
+    :postcondition: Calculates and appends point value into current player's scorecard.
     :return: an integer
 
     >>> point_calculator([1, 1, 1, 2, 2], 'aces')
