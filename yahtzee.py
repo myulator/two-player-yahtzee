@@ -26,6 +26,11 @@ def create_scorecard():
     Logic: As long as there is a None value in either player's scorecard dictionary, the game will continue.
 
     :return: a dictionary
+
+    >>> create_scorecard()
+    {'aces': None, 'twos': None, 'threes': None, 'fours': None, 'fives': None, 'sixes': None, '3 of a kind': None,
+'4 of a kind': None, 'full house': None, 'small straight': None, 'large straight': None, 'yahtzee': None,
+'chance': None, 'yahtzee bonus': 0}
     """
     pass
 
@@ -76,7 +81,6 @@ def commit_score(current_hand: list, scorecard: dict):
 
     :param current_hand: a list representing face values of rolled dice.
     :param scorecard: a dictionary representing current player's scorecard.
-    :param scorecard: a dictionary representing current player's scorecard.
     :precondition: Current hand must contain 5 integers between 1 and 6 inclusively.
                     Numbers in current hand should appear in ascending order.
                     Scorecard should contain at least one value that is None.
@@ -112,6 +116,18 @@ def point_calculator(current_hand: list, hand: str) -> int:
     50
     >>> point_calculator([1, 2, 3, 4, 5], 'yahtzee')
     0
+    """
+    pass
+
+
+def calculate_winner(scorecard1: dict, scorecard2: dict):
+    """
+    Calculate the final score of both players and declare the winner.
+
+    :param scorecard1: a dictionary representing player 1's scorecard.
+    :param scorecard2: a dictionary representing player 2's scorecard.
+    :precondition: both dictionaries must contain only integer values assigned to string keys.
+    :postcondition: correctly calculates total scores including any bonuses.
     """
     pass
 
