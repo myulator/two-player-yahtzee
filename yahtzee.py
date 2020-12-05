@@ -128,6 +128,17 @@ def calculate_winner(scorecard1: dict, scorecard2: dict):
     :param scorecard2: a dictionary representing player 2's scorecard.
     :precondition: both dictionaries must contain only integer values assigned to string keys.
     :postcondition: correctly calculates total scores including any bonuses.
+
+    >>> p1_scorecard = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30,
+    '4 of a kind': 30, 'full house': 25, 'small straight': 30,'large straight': 40, 'yahtzee': 50, 'chance': 24,
+    'yahtzee bonus': 0}
+    >>> p2_scorecard = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30,
+    '4 of a kind': 30, 'full house': 25, 'small straight': 30,'large straight': 40, 'yahtzee': 50, 'chance': 24,
+    'yahtzee bonus': 0}
+    >>> calculate_winner(p1_scorecard, p2_scorecard)
+    Player 1 scored: 279 points
+    Player 2 scored: 261 points
+    Player 1 wins!
     """
     pass
 

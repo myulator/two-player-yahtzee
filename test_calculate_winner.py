@@ -40,3 +40,15 @@ class Test(TestCase):
         calculate_winner(argument1, argument2)
         expected_print = 'Player 1 scored: 196 points\nPlayer 2 scored: 249 points\nPlayer 2 wins!'
         self.assertEqual(expected_print, mock_print.getvalue(), "Player 2 wins, P1 did not reach the upper bonus.")
+
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_calculate_winner_tie(self, mock_print):
+        argument1 = {'aces': 2, 'twos': 4, 'threes': 9, 'fours': 8, 'fives': 15, 'sixes': 18,
+                     '3 of a kind': 14, '4 of a kind': 21, 'full house': 25, 'small straight': 30,
+                     'large straight': 40, 'yahtzee': 0, 'chance': 10, 'yahtzee bonus': 0}
+        argument2 = {'aces': 2, 'twos': 4, 'threes': 9, 'fours': 8, 'fives': 15, 'sixes': 18,
+                     '3 of a kind': 14, '4 of a kind': 21, 'full house': 25, 'small straight': 30,
+                     'large straight': 40, 'yahtzee': 0, 'chance': 10, 'yahtzee bonus': 0}
+        calculate_winner(argument1, argument2)
+        expected_print = 'Player 1 scored: 196 points\nPlayer 2 scored: 196 points\nTie game!'
+        self.assertEqual(expected_print, mock_print.getvalue(), "Incredible, both players have the same score.")
