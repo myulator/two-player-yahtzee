@@ -1,6 +1,5 @@
 from unittest import TestCase
 from yahtzee import point_calculator
-from unittest.mock import patch
 
 
 class TestPointCalculator(TestCase):
@@ -103,6 +102,3 @@ class TestPointCalculator(TestCase):
         actual_return = point_calculator([1, 3, 4, 4, 6], 'chance')
         expected_return = 18
         self.assertEqual(expected_return, actual_return, "Player uses their chance.")
-
-
-
