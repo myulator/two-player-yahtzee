@@ -171,4 +171,3 @@ class TestCommitScore(TestCase):
                            'large straight': 40, 'yahtzee': 50, 'chance': 14, 'yahtzee bonus': 0}
         actual_return = commit_score(argument1, argument2)
         self.assertEqual(expected_return, actual_return, "Player wishes to use their chance.")
-
