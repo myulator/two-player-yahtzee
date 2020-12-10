@@ -6,18 +6,6 @@ Date: December 4, 2020
 """
 
 
-def roll_initiative():
-    """
-    Simulate rolling a die for both players to determine who goes first.
-
-    Both players will press enter to roll a die, and their numbers will be printed to the screen.
-    If both players roll the same number, re-roll. Otherwise, the player with the higher roll goes first.
-
-    :return: an integer
-    """
-    pass
-
-
 def create_scorecard():
     """
     Create a dictionary data structure to track a player's score.
@@ -28,9 +16,8 @@ def create_scorecard():
     :return: a dictionary
 
     >>> create_scorecard()
-    {'aces': None, 'twos': None, 'threes': None, 'fours': None, 'fives': None, 'sixes': None, '3 of a kind': None,
-'4 of a kind': None, 'full house': None, 'small straight': None, 'large straight': None, 'yahtzee': None,
-'chance': None, 'yahtzee bonus': 0}
+    {'aces': -1, 'twos': -1, 'threes': -1, 'fours': -1, 'fives': -1, 'sixes': -1, '3 of a kind': -1, '4 of a kind': -1,
+    'full house': -1, 'small straight': -1, 'large straight': -1, 'yahtzee': -1, 'chance': -1, 'yahtzee bonus': 0}
     """
     pass
 
@@ -120,14 +107,14 @@ def point_calculator(current_hand: list, hand: str) -> int:
     pass
 
 
-def calculate_winner(scorecard1: dict, scorecard2: dict):
+def calculate_final_score(scorecard: dict) -> int:
     """
-    Calculate the final score of both players and declare the winner.
+    Calculate the total points scored in a player's scorecard.
 
-    :param scorecard1: a dictionary representing player 1's scorecard.
-    :param scorecard2: a dictionary representing player 2's scorecard.
-    :precondition: both dictionaries must contain only integer values assigned to string keys.
-    :postcondition: correctly calculates total scores including any bonuses.
+    :param scorecard: a dictionary representing a player's scorecard.
+    :precondition: scorecard dictionary must contain only positive integer values assigned to string keys.
+    :postcondition: correctly calculates total score including any bonuses.
+    :return: an integer
 
     >>> p1_scorecard = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30,
     '4 of a kind': 30, 'full house': 25, 'small straight': 30,'large straight': 40, 'yahtzee': 50, 'chance': 24,
@@ -135,10 +122,35 @@ def calculate_winner(scorecard1: dict, scorecard2: dict):
     >>> p2_scorecard = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30,
     '4 of a kind': 30, 'full house': 25, 'small straight': 30,'large straight': 40, 'yahtzee': 50, 'chance': 24,
     'yahtzee bonus': 0}
-    >>> calculate_winner(p1_scorecard, p2_scorecard)
+    >>> print(calculate_final_score(p1_scorecard))
+    279
+    >>> print(calculate_final_score(p2_scorecard))
+    261
+    """
+    pass
+
+
+def announce_winner(score1: int, score2: int):
+    """
+    Determine the player with higher points and announce them as the winner.
+
+    :param score1: an integer representing player 1's final score
+    :param score2: an integer representing player 2's final score
+
+    >>> announce_winner(279, 261)
     Player 1 scored: 279 points
     Player 2 scored: 261 points
     Player 1 wins!
+
+    >>> announce_winner(279, 300)
+    Player 1 scored: 279 points
+    Player 2 scored: 300 points
+    Player 2 wins!
+
+    >>> announce_winner(300, 300)
+    Player 1 scored: 300 points
+    Player 2 scored: 300 points
+    Tie game!
     """
     pass
 
