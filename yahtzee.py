@@ -72,9 +72,9 @@ def create_scorecard():
 
     :return: a dictionary
 
-    >>> create_scorecard()
-    {'aces': -1, 'twos': -1, 'threes': -1, 'fours': -1, 'fives': -1, 'sixes': -1, '3 of a kind': -1, '4 of a kind': -1,
-    'full house': -1, 'small straight': -1, 'large straight': -1, 'yahtzee': -1, 'chance': -1, 'yahtzee bonus': 0}
+    >>> print(create_scorecard())
+    {'aces': -1, 'twos': -1, 'threes': -1, 'fours': -1, 'fives': -1, 'sixes': -1, '3 of a kind': -1, '4 of a kind': -1,\
+ 'full house': -1, 'small straight': -1, 'large straight': -1, 'yahtzee': -1, 'chance': -1, 'yahtzee bonus': 0}
     """
     scorecard = {'aces': -1, 'twos': -1, 'threes': -1, 'fours': -1, 'fives': -1, 'sixes': -1, '3 of a kind': -1,
                  '4 of a kind': -1, 'full house': -1, 'small straight': -1, 'large straight': -1, 'yahtzee': -1,
@@ -91,13 +91,6 @@ def roll_dice(current_hand: list):
     :param current_hand: a potentially empty list representing face values of rolled dice.
     :precondition: current_hand length should be between 0 and 5.
     :postcondition: modifies the list to make a 5-dice hand.
-
-    >>> roll_dice([])
-    [1, 2, 3, 5, 6]
-    >>> roll_dice([1, 3, 5])
-    [1, 3, 5, 6, 6]
-    >>> roll_dice([1, 1, 1, 1, 2])
-    [1, 1, 1, 1, 2]
     """
     # Note: This does not need to return the list: can just modify the list. Unittests will need to be edited.
     # While the current_hand list length is less than 5:
@@ -159,8 +152,6 @@ def commit_score(current_hand: list, scorecard: dict):
                     Player input should be a valid score section in Yahtzee.
     :postcondition: Calculates and appends point value into current player's scorecard.
     """
-    committed = 0
-    # While loop: need a condition to break loop once a valid entry has been made in the scorecard dictionary.
     while True:
         try:
             score_section = (input('In which section would you like to enter your score?: ')).strip().lower()
@@ -191,7 +182,8 @@ def yahtzee_validator(current_hand: list) -> bool:
     >>> print(yahtzee_validator([1, 1, 1, 1, 2]))
     False
     """
-    # use Counter function from collections module, length of the returned list needs to be 1.
+    # Use Counter function from collections module, length of the returned list must be 1 if there is only
+    # one unique number.
     if len(Counter(current_hand).values()) == 1:
         return True
     else:
@@ -245,8 +237,8 @@ def point_calculator(current_hand: list, hand: str) -> int:
     25
     >>> point_calculator([5, 5, 5, 5, 6], '4 of a kind')
     26
-    >>> point_calculator([5, 5, 5, 5, 6], '3 of a kind')
-    26
+    >>> point_calculator([1, 5, 5, 5, 6], '3 of a kind')
+    22
     >>> point_calculator([1, 1, 1, 1, 1], 'yahtzee')
     50
     >>> point_calculator([1, 2, 3, 4, 5], 'yahtzee')
@@ -270,13 +262,6 @@ def point_calculator(current_hand: list, hand: str) -> int:
     else:
         return 0
 
-    # if the hand string is 'full house', call the complex hand (full house, 4kind, 3kind) calculator (use regex?).
-    # if hand string is yahtzee, validate yahtzee with function.
-    # if hand string is chance, add all numbers in the list.
-    # if hand string is sm straight, either pass to a straight calculator for just compare hand to preset lists.
-    # e.g. sm straights can only be 1234, 2345, 3456.
-    # e.g. lg straights can only be 12345, 23456.
-
 
 def calculate_final_score(scorecard: dict) -> int:
     """
@@ -287,16 +272,16 @@ def calculate_final_score(scorecard: dict) -> int:
     :postcondition: correctly calculates total score including any bonuses.
     :return: an integer
 
-    >>> p1_scorecard = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30,
-    '4 of a kind': 30, 'full house': 25, 'small straight': 30,'large straight': 40, 'yahtzee': 50, 'chance': 24,
+    >>> p1_scorecard = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30,\
+    '4 of a kind': 30, 'full house': 25, 'small straight': 30,'large straight': 40, 'yahtzee': 50, 'chance': 24,\
     'yahtzee bonus': 0}
-    >>> p2_scorecard = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30,
-    '4 of a kind': 30, 'full house': 25, 'small straight': 30,'large straight': 40, 'yahtzee': 50, 'chance': 24,
-    'yahtzee bonus': 0}
+    >>> p2_scorecard = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30,\
+    '4 of a kind': 30, 'full house': 25, 'small straight': 30,'large straight': 40, 'yahtzee': 50, 'chance': 24,\
+    'yahtzee bonus': 100}
     >>> print(calculate_final_score(p1_scorecard))
-    279
+    369
     >>> print(calculate_final_score(p2_scorecard))
-    261
+    469
     """
     total = 0
     for key, value in scorecard.items():

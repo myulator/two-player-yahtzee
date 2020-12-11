@@ -8,15 +8,15 @@ class Test(TestCase):
                      '4 of a kind': 30, 'full house': 25, 'small straight': 30, 'large straight': 40, 'yahtzee': 50,
                      'chance': 24, 'yahtzee bonus': 0}
         actual_return = calculate_final_score(argument1)
-        expected_return = 279
-        self.assertEqual(expected_return, actual_return, "Player scores 279 points.")
+        expected_return = 369
+        self.assertEqual(expected_return, actual_return, "Player scores 369 points.")
 
     def test_calculate_final_score_p2(self):
         argument2 = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30,
                      '3 of a kind': 30, '4 of a kind': 30, 'full house': 25, 'small straight': 30,
                      'large straight': 40, 'yahtzee': 50, 'chance': 24, 'yahtzee bonus': 200}
         actual_return = calculate_final_score(argument2)
-        expected_return = 479
+        expected_return = 569
         self.assertEqual(expected_return, actual_return, "Player scores 479 points with 3 yahtzees.")
 
     def test_calculate_final_score_p2_with_upper_bonus(self):

@@ -10,7 +10,7 @@ class TestAnnounceWinner(TestCase):
         argument1 = 279
         argument2 = 261
         announce_winner(argument1, argument2)
-        expected_print = 'Player 1 scored: 279 points\nPlayer 2 scored: 261 points\nPlayer 1 wins!'
+        expected_print = 'Player 1 scored: 279 points\nPlayer 2 scored: 261 points\nPlayer 1 wins!\n'
         self.assertEqual(expected_print, mock_print.getvalue(), "Player 1 wins.")
 
     @patch('sys.stdout', new_callable=io.StringIO)
@@ -18,7 +18,7 @@ class TestAnnounceWinner(TestCase):
         argument1 = 279
         argument2 = 479
         announce_winner(argument1, argument2)
-        expected_print = 'Player 1 scored: 279 points\nPlayer 2 scored: 261 points\nPlayer 1 wins!'
+        expected_print = 'Player 1 scored: 279 points\nPlayer 2 scored: 479 points\nPlayer 2 wins!\n'
         self.assertEqual(expected_print, mock_print.getvalue(), "Player 2 wins.")
 
     @patch('sys.stdout', new_callable=io.StringIO)
@@ -26,5 +26,5 @@ class TestAnnounceWinner(TestCase):
         argument1 = 300
         argument2 = 300
         announce_winner(argument1, argument2)
-        expected_print = 'Player 1 scored: 196 points\nPlayer 2 scored: 196 points\nTie game!'
+        expected_print = 'Player 1 scored: 300 points\nPlayer 2 scored: 300 points\nTie game!\n'
         self.assertEqual(expected_print, mock_print.getvalue(), "Tie game.")
