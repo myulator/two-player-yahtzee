@@ -52,7 +52,7 @@ def create_scorecard():
     return scorecard
 
 
-def roll_dice(current_hand: list) -> list:
+def roll_dice(current_hand: list):
     """
     Roll dice to create a 5-dice hand.
 
@@ -92,22 +92,21 @@ def re_roll(current_hand: list) -> list:
     :postcondition: Returns the player's hand after re-rolling/keeping all dice.
     :return: a list of integers
     """
-    pass
     # This does not need to return the list: can just modify the list. Unittests will need to be edited.
     # Ask player to input the dice they wish to keep e.g "12345" would mean they wish to keep all dice.
-    print('------------How to select which dice to keep------------')
+    print('----------------------------How to select which dice to keep------------------------------')
     print('E.g. If you would like to keep your entire hand, input 12345')
     print('E.g. If you would like to keep the only the 1st, 3rd, and 5th dice in your hand, input 135')
     print('E.g. If you would like to re-roll your entire hand, press enter.')
-    print('--------------------------------------------------------')
-    kept_dice = input('Please enter which dice in your hand you would like to keep.')
+    print('------------------------------------------------------------------------------------------')
+    kept_dice = input('Please enter which dice in your hand you would like to keep: ')
 
     if len(kept_dice) == 5:
         return current_hand
     else:
         kept_dice_list = []
-        for die in range(0, len(kept_dice)):
-            kept_dice_list.append(current_hand[die - 1])
+        for die in kept_dice:
+            kept_dice_list.append(current_hand[int(die) - 1])
         print(f'You chose to keep {kept_dice_list}')
         return kept_dice_list
     # otherwise, for loop over range from 0 to length of the input string
@@ -142,7 +141,7 @@ def commit_score(current_hand: list, scorecard: dict):
                 scorecard[score_section] = point_calculator(current_hand, score_section)
                 committed += 1
             elif score_section == 'yahtzee':
-                if bonus_yahtzee_validator(current_hand):
+                if yahtzee_validator(current_hand):
                     scorecard['yahtzee bonus'] += YAHTZEE_BONUS()
                 else:
                     print('Error: You have already recorded a score in the yahtzee section and your current hand does\
@@ -160,7 +159,7 @@ def commit_score(current_hand: list, scorecard: dict):
     # except key error, print error message: the input is not valid
 
 
-def bonus_yahtzee_validator(current_hand: list) -> bool:
+def yahtzee_validator(current_hand: list) -> bool:
     """
     Validate the current hand for the presence of 5 of a kind (yahtzee).
 
@@ -169,9 +168,9 @@ def bonus_yahtzee_validator(current_hand: list) -> bool:
     :postcondition: Determines whether the hand contains 5 of the same number.
     :return: a boolean
 
-    >>> print(bonus_yahtzee_validator([1, 1, 1, 1, 1]))
+    >>> print(yahtzee_validator([1, 1, 1, 1, 1]))
     True
-    >>> print(bonus_yahtzee_validator([1, 1, 1, 1, 2]))
+    >>> print(yahtzee_validator([1, 1, 1, 1, 2]))
     False
     """
     # use Counter function from collections module, length of the returned list needs to be 1.
@@ -193,17 +192,19 @@ def straights_calculator(current_hand: list, hand: str) -> int:
     :postcondition: Calculates the point value to be recorded in the upper section of a player's scorecard.
     :return: an integer
     """
-    str_hand = "".join(current_hand)
+    str_hand = "".join(map(str, current_hand))
     sm_straight_regex = re.compile(r'1234|2345|3456')
     lg_straight_regex = re.compile(r'12345|23456')
     if hand == 'small straight':
         if sm_straight_regex.search(str_hand):
             return SM_STRAIGHT()
+        else:
+            return 0
     elif hand == 'large straight':
         if lg_straight_regex.search(str_hand):
             return LG_STRAIGHT()
-    else:
-        return 0
+        else:
+            return 0
 
 
 def point_calculator(current_hand: list, hand: str) -> int:
@@ -239,13 +240,13 @@ def point_calculator(current_hand: list, hand: str) -> int:
     if hand == 'full house' and len(Counter(current_hand).values()) == 2:
         return FULL_HOUSE()
     if hand == '3 of a kind' and 3 in Counter(current_hand).values():
-        return sum(hand)
+        return sum(current_hand)
     if hand == '4 of a kind' and 4 in Counter(current_hand).values():
-        return sum(hand)
-    if hand == 'yahtzee' and bonus_yahtzee_validator(current_hand):
+        return sum(current_hand)
+    if hand == 'yahtzee' and yahtzee_validator(current_hand):
         return YAHTZEE()
     if hand == 'chance':
-        return sum(hand)
+        return sum(current_hand)
     if hand in ['small straight', 'large straight']:
         return straights_calculator(current_hand, hand)
     else:
@@ -333,16 +334,18 @@ def game(scorecard: dict):
     rolls_left = 3
     hand = []
     while rolls_left > 1:
-        input('Press enter to roll dice...')
+        input('\nPress enter to roll dice...')
         roll_dice(hand)
         rolls_left -= 1
-        print(f'Your current hand is {hand}')
-        re_roll(hand)
+        print(f'\nYour current hand is {hand}\n')
+        hand = re_roll(hand)
         if len(hand) == 5:
             commit_score(hand, scorecard)
-        print(f'You have {rolls_left} rolls remaining this turn.')
-    input('Press enter to roll dice...')
+            return
+        print(f'You have {rolls_left} roll(s) remaining this turn.')
+    input('\nPress enter to roll dice...')
     roll_dice(hand)
+    print(f'Your current hand is {hand}\n')
     commit_score(hand, scorecard)
 
 
@@ -350,27 +353,25 @@ def main():
     """
     Drives the program.
     """
-    # NOTE: may need to use a game() function if 20 line limit is exceeded.
-    # this game function would take ONE param: the current player's scorecard dictionary.
-
-    # print welcome to yahtzee!
-    print('Welcome to two player Yahtzee!')
-    # create p1 and p2's scorecards.
+    print('Welcome to two player Yahtzee!\n------------------------------')
     p1_scorecard = create_scorecard()
     p2_scorecard = create_scorecard()
 
     # while loop: main program keeps game going as long as there is at least one -1 value in either player's scorecard.
-    # set turn counter to 1.
-    while -1 in p1_scorecard or -1 in p2_scorecard:
-        turn_counter = 1
+    turn_counter = 1
+    while -1 in p1_scorecard.values() or -1 in p2_scorecard.values():
+        # these conditions keep track of who's turn it is, and if a player finishes early, they stop taking turns.
         if turn_counter % 2 == 0:
-            print('It is player 2\'s turn')
+            print('It is player 2\'s turn.')
             game(p2_scorecard)
+            print(f'Player 2\'s current scores are: \n{p2_scorecard}\n------------------------------')
             turn_counter += 1
         elif turn_counter % 2 != 0:
-            print('It is player 1\'s turn')
+            print('It is player 1\'s turn.')
             game(p1_scorecard)
+            print(f'Player 1\'s current scores are: \n{p1_scorecard}\n------------------------------')
             turn_counter += 1
+
     # if turn counter does not evenly divide by 2 AND there is a -1 in the scorecard, it is p1's turn
     # if turn counter evenly divides by 2 AND there is a -1 in the scorecard, it is p2's turn
     # end of turn, increment turn counter by 1
@@ -379,13 +380,6 @@ def main():
     p2_total = calculate_final_score(p2_scorecard)
     announce_winner(p1_total, p2_total)
     print('Thank you for playing!')
-
-
-    # these conditions keep track of who's turn it is, and if one player finishes early,
-    # they skip their turns until the game ends
-
-    # when the program exits the main while loop, that means the player's have filled their scorecards
-    # calculate final scores, then announce winner.
 
 
 if __name__ == "__main__":
