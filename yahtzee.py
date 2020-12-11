@@ -5,6 +5,7 @@ A00962260
 Date: December 11, 2020
 """
 import random
+import re
 from collections import Counter
 
 
@@ -174,7 +175,8 @@ def bonus_yahtzee_validator(current_hand: list) -> bool:
     else:
         return False
 
-def upper_section_calculator(current_hand: list, hand: str) -> int:
+
+def straights_calculator(current_hand: list, hand: str) -> int:
     """
     Calculate point value that can be scored with current hand.
 
@@ -186,18 +188,18 @@ def upper_section_calculator(current_hand: list, hand: str) -> int:
     :postcondition: Calculates the point value to be recorded in the upper section of a player's scorecard.
     :return: an integer
     """
-    if hand == 'aces':
-        return current_hand.count(1)
-    if hand == 'twos':
-        return current_hand.count(2) * 2
-    if hand == 'threes':
-        return current_hand.count(3) * 3
-    if hand == 'fours':
-        return current_hand.count(4) * 4
-    if hand == 'fives':
-        return current_hand.count(5) * 5
-    if hand == 'sixes':
-        return current_hand.count(6) * 6
+    str_hand = "".join(current_hand)
+    sm_straight_regex = re.compile(r'1234|2345|3456')
+    lg_straight_regex = re.compile(r'12345|23456')
+    if hand == 'small straight':
+        if sm_straight_regex.search(str_hand):
+            return SM_STRAIGHT()
+    elif hand == 'large straight':
+        if lg_straight_regex.search(str_hand):
+            return LG_STRAIGHT()
+    else:
+        return 0
+
 
 def point_calculator(current_hand: list, hand: str) -> int:
     """
@@ -226,24 +228,30 @@ def point_calculator(current_hand: list, hand: str) -> int:
     >>> point_calculator([1, 2, 3, 4, 5], 'yahtzee')
     0
     """
-    # if the hand string is 'aces', count instances of 1 in the list, and multiply by that 1.
-    # if the hand string is 'twos', count instances of 2 in the list, and multiply by that 2.
-    # do the same for 3s, 4s, 5s, 6s.
-
+    upper_section = ['aces', 'twos', 'threes', 'fours', 'fives', 'sixes']
+    if hand in upper_section:
+        return current_hand.count(upper_section.index(hand) + 1) * (upper_section.index(hand) + 1)
     if hand == 'full house' and len(Counter(current_hand).values()) == 2:
         return FULL_HOUSE()
     if hand == '3 of a kind' and 3 in Counter(current_hand).values():
         return sum(hand)
     if hand == '4 of a kind' and 4 in Counter(current_hand).values():
         return sum(hand)
-    if hand == 'small straight' and current_hand == [1,2,3,4]
+    if hand == 'yahtzee' and bonus_yahtzee_validator(current_hand):
+        return YAHTZEE()
+    if hand == 'chance':
+        return sum(hand)
+    if hand in ['small straight', 'large straight']:
+        return straights_calculator(current_hand, hand)
+    else:
+        return 0
+
     # if the hand string is 'full house', call the complex hand (full house, 4kind, 3kind) calculator (use regex?).
     # if hand string is yahtzee, validate yahtzee with function.
     # if hand string is chance, add all numbers in the list.
     # if hand string is sm straight, either pass to a straight calculator for just compare hand to preset lists.
     # e.g. sm straights can only be 1234, 2345, 3456.
     # e.g. lg straights can only be 12345, 23456.
-    pass
 
 
 def calculate_final_score(scorecard: dict) -> int:
