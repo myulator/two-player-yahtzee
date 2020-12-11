@@ -262,9 +262,9 @@ def point_calculator(current_hand: list, hand: str) -> int:
         return current_hand.count(upper_section.index(hand) + 1) * (upper_section.index(hand) + 1)
     if hand == 'full house' and len(Counter(current_hand).values()) == 2:
         return FULL_HOUSE()
-    if hand == '3 of a kind' and 3 in Counter(current_hand).values():
+    if hand == '3 of a kind' and any(value > 2 for value in Counter(current_hand).values()):
         return sum(current_hand)
-    if hand == '4 of a kind' and 4 in Counter(current_hand).values():
+    if hand == '4 of a kind' and any(value > 3 for value in Counter(current_hand).values()):
         return sum(current_hand)
     if hand == 'yahtzee' and yahtzee_validator(current_hand):
         return YAHTZEE()
