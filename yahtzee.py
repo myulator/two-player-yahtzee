@@ -325,6 +325,15 @@ def announce_winner(score1: int, score2: int):
         print('Tie game!')
 
 
+def game(scorecard: dict):
+    """
+    Drives the entire turn for the current player
+    """
+    rolls_left = 3
+    hand = []
+    while rolls_left > 0:
+
+
 def main():
     """
     Drives the program.
@@ -333,21 +342,36 @@ def main():
     # this game function would take ONE param: the current player's scorecard dictionary.
 
     # print welcome to yahtzee!
-
+    print('Welcome to two player Yahtzee!')
     # create p1 and p2's scorecards.
+    p1_scorecard = create_scorecard()
+    p2_scorecard = create_scorecard()
 
     # while loop: main program keeps game going as long as there is at least one -1 value in either player's scorecard.
     # set turn counter to 1.
+    while -1 in p1_scorecard or -1 in p2_scorecard:
+        turn_counter = 1
+        if turn_counter % 2 == 0:
+            game(p2_scorecard)
+            turn_counter += 1
+        elif turn_counter % 2 != 0:
+            game(p1_scorecard)
+            turn_counter += 1
     # if turn counter does not evenly divide by 2 AND there is a -1 in the scorecard, it is p1's turn
     # if turn counter evenly divides by 2 AND there is a -1 in the scorecard, it is p2's turn
     # end of turn, increment turn counter by 1
+
+    p1_total = calculate_final_score(p1_scorecard)
+    p2_total = calculate_final_score(p2_scorecard)
+    announce_winner(p1_total, p2_total)
+    print('Thank you for playing!')
+
 
     # these conditions keep track of who's turn it is, and if one player finishes early,
     # they skip their turns until the game ends
 
     # when the program exits the main while loop, that means the player's have filled their scorecards
     # calculate final scores, then announce winner.
-    pass
 
 
 if __name__ == "__main__":
