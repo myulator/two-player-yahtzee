@@ -7,7 +7,7 @@ class TestReRoll(TestCase):
     @patch('builtins.input', side_effect=['12345'])
     def test_re_roll_keep_all(self, mock_input):
         actual_return = re_roll([6, 6, 6, 6, 6])
-        expected_return = "commit"
+        expected_return = [6, 6, 6, 6, 6]
         self.assertEqual(expected_return, actual_return, "Player wishes to keep their whole hand.")
 
     @patch('builtins.input', side_effect=['1'])

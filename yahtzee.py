@@ -30,10 +30,11 @@ def roll_dice(current_hand: list) -> list:
     """
     Roll dice to create a 5-dice hand.
 
-    Return a list of 5 random integers between 1 and 6 inclusively.
+    Modify the list such that it contains 5 random integers between 1 and 6 inclusively.
 
     :param current_hand: a potentially empty list representing face values of rolled dice.
-    :return: a list of integers in ascending order
+    :precondition: current_hand length should be between 0 and 5.
+    :postcondition: modifies the list to make a 5-dice hand.
 
     >>> roll_dice([])
     [1, 2, 3, 5, 6]
@@ -68,10 +69,11 @@ def re_roll(current_hand: list) -> list:
     pass
     # This does not need to return the list: can just modify the list. Unittests will need to be edited.
     # Ask player to input the dice they wish to keep e.g "12345" would mean they wish to keep all dice.
-    print('------------Selecting which dice to keep------------')
+    print('------------How to select which dice to keep------------')
     print('E.g. If you would like to keep your entire hand, input 12345')
-    print('E.g. If you would only like to keep the 1st, 3rd, and 5th dice in your hand, input 135')
-    print('----------------------------------------------------')
+    print('E.g. If you would like to keep the only the 1st, 3rd, and 5th dice in your hand, input 135')
+    print('E.g. If you would like to re-roll your entire hand, press enter.')
+    print('--------------------------------------------------------')
     kept_dice = input('Please enter which dice in your hand you would like to keep.')
     # if the input is 12345, return "commit"
     if len(kept_dice) == 5:
@@ -79,7 +81,7 @@ def re_roll(current_hand: list) -> list:
     else:
         kept_dice_list = []
         for die in range(0, len(kept_dice)):
-            kept_dice_list.append(die)
+            kept_dice_list.append(current_hand[die - 1])
         return kept_dice_list
     # otherwise, for loop over range from 0 to length of the input string
     # each character in the string points to an index in the current_hand list, append those dice to a new list
@@ -102,11 +104,24 @@ def commit_score(current_hand: list, scorecard: dict):
     :postcondition: Calculates and appends point value into current player's scorecard.
     :return: scorecard dictionary with updated point values.
     """
-    pass
     # This does not need to return the dict: can just modify. Unittests will need to be edited.
     # Will probably use a try except here in case player input is invalid
-
+    committed = 0
     # While loop: need a condition to break loop once a valid entry has been made in the scorecard dictionary.
+    while committed < 1:
+        try:
+            score_section = (input('In which section would you like to enter your score?: ')).strip().lower()
+            if scorecard[score_section] == -1:
+                point_calculator(current_hand, score_section)
+                committed += 1
+            elif score_section == 'yahtzee':
+                if bonus_yahtzee_validator(current_hand):
+                    scorecard['yahtzee bonus'] += 100
+                else:
+                    print('Error: You have already recorded a score in the yahtzee section and your current hand does\
+                          not contain a yahtzee.')
+        except KeyError:
+            print('That is not a valid section in the Yahtzee scorecard. Please try again.')
     # Ask player what section they want to score (strip and lowercase the input)
     # Check if that key in the scorecard contains -1 value
     # if it does, pass to point calculator -> commit the points returned from it to the scorecard
@@ -132,8 +147,8 @@ def bonus_yahtzee_validator(current_hand: list) -> bool:
     >>> print(bonus_yahtzee_validator([1, 1, 1, 1, 2]))
     False
     """
-    pass
-    # could use regex here
+
+
     # or use Counter function from collections module, length of the returned list needs to be 1.
 
 
