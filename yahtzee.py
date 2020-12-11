@@ -9,27 +9,57 @@ import re
 from collections import Counter
 
 
-def FULL_HOUSE():
+def FULL_HOUSE() -> int:
+    """
+    Return the constant point value awarded for rolling a full house.
+
+    :return: 25
+    """
     return 25
 
 
-def SM_STRAIGHT():
+def SM_STRAIGHT() -> int:
+    """
+    Return the constant point value awarded for rolling a small straight.
+
+    :return: 30
+    """
     return 30
 
 
 def LG_STRAIGHT():
+    """
+    Return the constant point value awarded for rolling a large straight.
+
+    :return: 40
+    """
     return 40
 
 
 def YAHTZEE():
+    """
+    Return the constant point value awarded for rolling a yahtzee.
+
+    :return: 50
+    """
     return 50
 
 
 def YAHTZEE_BONUS():
+    """
+    Return the constant bonus value awarded for achieving additional yahtzees.
+
+    :return: 100
+    """
     return 100
 
 
 def UPPER_BONUS():
+    """
+    Return the constant bonus value awarded for achieving an upper section score of 63 or greater in Yahtzee.
+
+    :return: 35
+    """
     return 35
 
 
@@ -89,29 +119,28 @@ def re_roll(current_hand: list) -> list:
     :param current_hand: a list representing face values of rolled dice.
     :precondition: Hand must contain 5 integers between 1 and 6 inclusively.
                     Numbers in the list should appear in ascending order.
+                    Player input must only contain numbers from 1 to 5 inclusively. No duplicates.
     :postcondition: Returns the player's hand after re-rolling/keeping all dice.
     :return: a list of integers
     """
-    # This does not need to return the list: can just modify the list. Unittests will need to be edited.
-    # Ask player to input the dice they wish to keep e.g "12345" would mean they wish to keep all dice.
     print('----------------------------How to select which dice to keep------------------------------')
     print('E.g. If you would like to keep your entire hand, input 12345')
     print('E.g. If you would like to keep the only the 1st, 3rd, and 5th dice in your hand, input 135')
     print('E.g. If you would like to re-roll your entire hand, press enter.')
     print('------------------------------------------------------------------------------------------')
-    kept_dice = input('Please enter which dice in your hand you would like to keep: ')
-
-    if len(kept_dice) == 5:
-        return current_hand
-    else:
-        kept_dice_list = []
-        for die in kept_dice:
-            kept_dice_list.append(current_hand[int(die) - 1])
-        print(f'You chose to keep {kept_dice_list}')
-        return kept_dice_list
-    # otherwise, for loop over range from 0 to length of the input string
-    # each character in the string points to an index in the current_hand list, append those dice to a new list
-    # return the new list
+    while True:
+        try:
+            kept_dice = input('Please enter which dice in your hand you would like to keep: ')
+            if len(kept_dice) == 5:
+                return current_hand
+            else:
+                kept_dice_list = []
+                for die in kept_dice:
+                    kept_dice_list.append(current_hand[int(die) - 1])
+                print(f'You chose to keep {kept_dice_list}')
+                return kept_dice_list
+        except IndexError:
+            print('Error: Invalid dice positions. Indicate dice positions using numbers 1 to 5.')
 
 
 def commit_score(current_hand: list, scorecard: dict):
@@ -127,19 +156,17 @@ def commit_score(current_hand: list, scorecard: dict):
     :precondition: Current hand must contain 5 integers between 1 and 6 inclusively.
                     Numbers in current hand should appear in ascending order.
                     Scorecard should contain at least one value that is -1.
+                    Player input should be a valid score section in Yahtzee.
     :postcondition: Calculates and appends point value into current player's scorecard.
-    :return: scorecard dictionary with updated point values.
     """
-    # This does not need to return the dict: can just modify. Unittests will need to be edited.
-    # Will probably use a try except here in case player input is invalid
     committed = 0
     # While loop: need a condition to break loop once a valid entry has been made in the scorecard dictionary.
-    while committed < 1:
+    while True:
         try:
             score_section = (input('In which section would you like to enter your score?: ')).strip().lower()
             if scorecard[score_section] == -1:
                 scorecard[score_section] = point_calculator(current_hand, score_section)
-                committed += 1
+                return
             elif score_section == 'yahtzee':
                 if yahtzee_validator(current_hand):
                     scorecard['yahtzee bonus'] += YAHTZEE_BONUS()
@@ -148,15 +175,6 @@ def commit_score(current_hand: list, scorecard: dict):
                           not contain a yahtzee.')
         except KeyError:
             print('That is not a valid section in the Yahtzee scorecard. Please try again.')
-    # Ask player what section they want to score (strip and lowercase the input)
-    # Check if that key in the scorecard contains -1 value
-    # if it does, pass to point calculator -> commit the points returned from it to the scorecard
-    # else if the input is yahtzee, pass to bonus yahtzee validator.
-    # if the return value from yahtzee validator is true, add 100 points to the yahtzee bonus value in scorecard
-    # if the return value from yahtzee validator is false, error message: you don't have another yahtzee to score.
-
-    # else if the input is not yahtzee, print error message.
-    # except key error, print error message: the input is not valid
 
 
 def yahtzee_validator(current_hand: list) -> bool:
