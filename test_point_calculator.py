@@ -79,18 +79,18 @@ class TestPointCalculator(TestCase):
         self.assertEqual(expected_return, actual_return, "Player has a middle sm straight.")
 
     def test_point_calculator_sm_straight_high(self):
-        actual_return = point_calculator([1, 3, 4, 5, 6], 'small straight')
+        actual_return = point_calculator([3, 4, 5, 5, 6], 'small straight')
         expected_return = 30
         self.assertEqual(expected_return, actual_return, "Player has a high sm straight.")
 
     def test_point_calculator_lg_straight_low(self):
         actual_return = point_calculator([1, 2, 3, 4, 5], 'large straight')
-        expected_return = 30
+        expected_return = 40
         self.assertEqual(expected_return, actual_return, "Player has a low large straight.")
 
     def test_point_calculator_lg_straight_high(self):
         actual_return = point_calculator([2, 3, 4, 5, 6], 'large straight')
-        expected_return = 30
+        expected_return = 40
         self.assertEqual(expected_return, actual_return, "Player has a high large straight.")
 
     def test_point_calculator_yahtzee(self):

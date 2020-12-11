@@ -201,9 +201,16 @@ def straights_calculator(current_hand: list, hand: str) -> int:
                     The hand string should contain a valid type of hand in yahtzee.
     :postcondition: Calculates the point value to be recorded in the upper section of a player's scorecard.
     :return: an integer
+
+    >>> straights_calculator([3, 4, 5, 5, 6], 'small straight')
+    30
+    >>> straights_calculator([2, 3, 4, 5, 6], 'large straight')
+    40
+    >>> straights_calculator([2, 3, 4, 5, 5], 'large straight')
+    0
     """
     str_hand = "".join(map(str, current_hand))
-    sm_straight_regex = re.compile(r'1234|2345|3456')
+    sm_straight_regex = re.compile(r'^1234$|^2345$|^3456$|^(12234)$|^(12334)$|^(23345)$|^(23445)$|^(34456)$|^(34556)$|')
     lg_straight_regex = re.compile(r'12345|23456')
     if hand == 'small straight':
         if sm_straight_regex.search(str_hand):
