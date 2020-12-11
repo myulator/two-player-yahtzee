@@ -133,7 +133,7 @@ def commit_score(current_hand: list, scorecard: dict):
         try:
             score_section = (input('In which section would you like to enter your score?: ')).strip().lower()
             if scorecard[score_section] == -1:
-                point_calculator(current_hand, score_section)
+                scorecard[score_section] = point_calculator(current_hand, score_section)
                 committed += 1
             elif score_section == 'yahtzee':
                 if bonus_yahtzee_validator(current_hand):
@@ -174,6 +174,30 @@ def bonus_yahtzee_validator(current_hand: list) -> bool:
     else:
         return False
 
+def upper_section_calculator(current_hand: list, hand: str) -> int:
+    """
+    Calculate point value that can be scored with current hand.
+
+    :param current_hand: a list representing face values of rolled dice.
+    :param hand: a string representing the hand value to be calculated.
+    :precondition: Current hand must contain 5 integers between 1 and 6 inclusively.
+                    Numbers in current hand should appear in ascending order.
+                    The hand string should contain a valid type of hand in yahtzee.
+    :postcondition: Calculates the point value to be recorded in the upper section of a player's scorecard.
+    :return: an integer
+    """
+    if hand == 'aces':
+        return current_hand.count(1)
+    if hand == 'twos':
+        return current_hand.count(2) * 2
+    if hand == 'threes':
+        return current_hand.count(3) * 3
+    if hand == 'fours':
+        return current_hand.count(4) * 4
+    if hand == 'fives':
+        return current_hand.count(5) * 5
+    if hand == 'sixes':
+        return current_hand.count(6) * 6
 
 def point_calculator(current_hand: list, hand: str) -> int:
     """
@@ -184,7 +208,7 @@ def point_calculator(current_hand: list, hand: str) -> int:
     :precondition: Current hand must contain 5 integers between 1 and 6 inclusively.
                     Numbers in current hand should appear in ascending order.
                     The hand string should contain a valid type of hand in yahtzee.
-    :postcondition: Calculates and appends point value into current player's scorecard.
+    :postcondition: Calculates the point value to be recorded in current player's scorecard.
     :return: an integer
 
     >>> point_calculator([1, 1, 1, 2, 2], 'aces')
@@ -206,7 +230,13 @@ def point_calculator(current_hand: list, hand: str) -> int:
     # if the hand string is 'twos', count instances of 2 in the list, and multiply by that 2.
     # do the same for 3s, 4s, 5s, 6s.
 
-
+    if hand == 'full house' and len(Counter(current_hand).values()) == 2:
+        return FULL_HOUSE()
+    if hand == '3 of a kind' and 3 in Counter(current_hand).values():
+        return sum(hand)
+    if hand == '4 of a kind' and 4 in Counter(current_hand).values():
+        return sum(hand)
+    if hand == 'small straight' and current_hand == [1,2,3,4]
     # if the hand string is 'full house', call the complex hand (full house, 4kind, 3kind) calculator (use regex?).
     # if hand string is yahtzee, validate yahtzee with function.
     # if hand string is chance, add all numbers in the list.
