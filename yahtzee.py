@@ -146,6 +146,16 @@ def point_calculator(current_hand: list, hand: str) -> int:
     >>> point_calculator([1, 2, 3, 4, 5], 'yahtzee')
     0
     """
+    # if the hand string is 'aces', count instances of 1 in the list, and multiply by that 1.
+    # if the hand string is 'twos', count instances of 2 in the list, and multiply by that 2.
+    # do the same for 3s, 4s, 5s, 6s.
+
+    # if the hand string is 'full house', call the complex hand (full house, 4kind, 3kind) calculator (use regex?).
+    # if hand string is yahtzee, validate yahtzee with function.
+    # if hand string is chance, add all numbers in the list.
+    # if hand string is sm straight, either pass to a straight calculator for just compare hand to preset lists.
+    # e.g. sm straights can only be 1234, 2345, 3456.
+    # e.g. lg straights can only be 12345, 23456.
     pass
 
 
@@ -195,6 +205,8 @@ def announce_winner(score1: int, score2: int):
     Player 2 scored: 300 points
     Tie game!
     """
+    # print both players' scores first
+    # see which score is greater, and announce winner
     pass
 
 
@@ -202,6 +214,24 @@ def main():
     """
     Drives the program.
     """
+    # NOTE: may need to use a game() function if 20 line limit is exceeded.
+    # this game function would take ONE param: the current player's scorecard dictionary.
+
+    # print welcome to yahtzee!
+
+    # create p1 and p2's scorecards.
+
+    # while loop: main program keeps game going as long as there is at least one -1 value in either player's scorecard.
+    # set turn counter to 1.
+    # if turn counter does not evenly divide by 2 AND there is a -1 in the scorecard, it is p1's turn
+    # if turn counter evenly divides by 2 AND there is a -1 in the scorecard, it is p2's turn
+    # end of turn, increment turn counter by 1
+
+    # these conditions keep track of who's turn it is, and if one player finishes early,
+    # they skip their turns until the game ends
+
+    # when the program exits the main while loop, that means the player's have filled their scorecards
+    # calculate final scores, then announce winner.
     pass
 
 
