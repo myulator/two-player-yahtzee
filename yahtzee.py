@@ -39,6 +39,10 @@ def roll_dice(current_hand: list) -> list:
     [1, 1, 1, 1, 2]
     """
     pass
+    # Note: This does not need to return the list: can just modify the list. Unittests will need to be edited.
+    # While the current_hand list length is less than 5:
+    # Append a random integer between 1 and 6 to the list
+    # Sort the list in ascending order
 
 
 def re_roll(current_hand: list) -> list:
@@ -56,6 +60,12 @@ def re_roll(current_hand: list) -> list:
     :return: either a string or a list of integers
     """
     pass
+    # This does not need to return the list: can just modify the list. Unittests will need to be edited.
+    # Ask player to input the dice they wish to keep e.g "12345" would mean they wish to keep all dice.
+    # if the input is 12345, return "commit"
+    # otherwise, for loop over range from 0 to length of the input string
+    # each character in the string points to an index in the current_hand list, append those dice to a new list
+    # return the new list
 
 
 def commit_score(current_hand: list, scorecard: dict):
@@ -70,11 +80,43 @@ def commit_score(current_hand: list, scorecard: dict):
     :param scorecard: a dictionary representing current player's scorecard.
     :precondition: Current hand must contain 5 integers between 1 and 6 inclusively.
                     Numbers in current hand should appear in ascending order.
-                    Scorecard should contain at least one value that is None.
+                    Scorecard should contain at least one value that is -1.
     :postcondition: Calculates and appends point value into current player's scorecard.
     :return: scorecard dictionary with updated point values.
     """
     pass
+    # This does not need to return the dict: can just modify. Unittests will need to be edited.
+    # Will probably use a try except here in case player input is invalid
+
+    # While loop: need a condition to break loop once a valid entry has been made in the scorecard dictionary.
+    # Ask player what section they want to score (strip and lowercase the input)
+    # Check if that key in the scorecard contains -1 value
+    # if it does, pass to point calculator -> commit the points returned from it to the scorecard
+    # else if the input is yahtzee, pass to bonus yahtzee validator.
+    # if the return value from yahtzee validator is true, add 100 points to the yahtzee bonus value in scorecard
+    # if the return value from yahtzee validator is false, error message: you don't have another yahtzee to score.
+
+    # else if the input is not yahtzee, print error message.
+    # except key error, print error message: the input is not valid
+
+
+def bonus_yahtzee_validator(current_hand: list) -> bool:
+    """
+    Validate the current hand for the presence of 5 of a kind (yahtzee).
+
+    :param current_hand: a list representing face values of rolled dice.
+    :precondition: Current hand must contain 5 integers between 1 and 6 inclusively.
+    :postcondition: Determines whether the hand contains 5 of the same number.
+    :return: a boolean
+
+    >>> print(bonus_yahtzee_validator([1, 1, 1, 1, 1]))
+    True
+    >>> print(bonus_yahtzee_validator([1, 1, 1, 1, 2]))
+    False
+    """
+    pass
+    # could use regex here
+    # or use Counter function from collections module, length of the returned list needs to be 1.
 
 
 def point_calculator(current_hand: list, hand: str) -> int:
@@ -127,6 +169,7 @@ def calculate_final_score(scorecard: dict) -> int:
     >>> print(calculate_final_score(p2_scorecard))
     261
     """
+    # for every value in scorecard, add it to a sum and return it.
     pass
 
 
