@@ -1,5 +1,5 @@
 """
-COMP 1510 A3
+COMP 1510 Final Exam
 Michael Yu
 A00962260
 Date: December 4, 2020
