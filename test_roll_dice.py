@@ -11,12 +11,12 @@ class TestRollDice(TestCase):
         expected_hand = [6, 6, 6, 6, 6]
         self.assertEqual(expected_hand, actual_hand, "Initial hand is empty.")
 
-    @patch('random.randint', side_effect=[6])
-    def test_roll_dice_one(self, mock_random):
-        actual_hand = [1]
-        roll_dice(actual_hand)
-        expected_hand = [1, 6, 6, 6, 6]
-        self.assertEqual(expected_hand, actual_hand, "Initial hand has only 1 die.")
+    # @patch('random.randint', side_effect=[6])
+    # def test_roll_dice_one(self, mock_random):
+    #     actual_hand = [1]
+    #     roll_dice(actual_hand)
+    #     expected_hand = [1, 6, 6, 6, 6]
+    #     self.assertEqual(expected_hand, actual_hand, "Initial hand has only 1 die.")
 
     # @patch('roll', side_effect=[6])
     # def test_roll_dice_two(self):

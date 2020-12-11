@@ -28,3 +28,4 @@ class TestAnnounceWinner(TestCase):
         announce_winner(argument1, argument2)
         expected_print = 'Player 1 scored: 300 points\nPlayer 2 scored: 300 points\nTie game!\n'
         self.assertEqual(expected_print, mock_print.getvalue(), "Tie game.")
+

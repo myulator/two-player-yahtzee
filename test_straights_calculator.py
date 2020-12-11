@@ -24,7 +24,7 @@ class TestStraightsCalculator(TestCase):
         self.assertEqual(expected_return, actual_return, "Player has a large straight.")
 
     def test_straights_calculator_small_none(self):
-        actual_return = straights_calculator([1, 1, 1, 1, 1], 'small straight')
+        actual_return = straights_calculator([1, 1, 2, 2, 2], 'small straight')
         expected_return = 0
         self.assertEqual(expected_return, actual_return, "Player has no small straight.")
 

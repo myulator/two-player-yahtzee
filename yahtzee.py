@@ -92,7 +92,6 @@ def roll_dice(current_hand: list):
     :precondition: current_hand length should be between 0 and 5.
     :postcondition: modifies the list to make a 5-dice hand.
     """
-    # Note: This does not need to return the list: can just modify the list. Unittests will need to be edited.
     # While the current_hand list length is less than 5:
     # Append a random integer between 1 and 6 to the list
     # Sort the list in ascending order
@@ -152,6 +151,12 @@ def commit_score(current_hand: list, scorecard: dict):
                     Player input should be a valid score section in Yahtzee.
     :postcondition: Calculates and appends point value into current player's scorecard.
     """
+    sections = ['aces', 'twos', 'threes', 'fours', 'fives', 'sixes', '3 of a kind', '4 of a kind', 'full house',
+                'small straight', 'large straight', 'yahtzee', 'chance']
+    print('Yahtzee score sections:')
+    for count, item in enumerate(sections, 1):
+        print(f'- {item}')
+
     while True:
         try:
             score_section = (input('In which section would you like to enter your score?: ')).strip().lower()
@@ -210,7 +215,8 @@ def straights_calculator(current_hand: list, hand: str) -> int:
     0
     """
     str_hand = "".join(map(str, current_hand))
-    sm_straight_regex = re.compile(r'^1234$|^2345$|^3456$|^(12234)$|^(12334)$|^(23345)$|^(23445)$|^(34456)$|^(34556)$|')
+    print(str_hand)
+    sm_straight_regex = re.compile(r'1234|2345|3456|^12234$|^12334$|^23345$|^23445$|^34456$|^34556$|')
     lg_straight_regex = re.compile(r'12345|23456')
     if hand == 'small straight':
         if sm_straight_regex.search(str_hand):
@@ -371,16 +377,15 @@ def main():
     turn_counter = 1
     while -1 in p1_scorecard.values() or -1 in p2_scorecard.values():
         # these conditions keep track of who's turn it is, and if a player finishes early, they stop taking turns.
-        if turn_counter % 2 == 0:
+        if turn_counter % 2 == 0 and -1 in p2_scorecard.values():
             print('It is player 2\'s turn.')
             game(p2_scorecard)
             print(f'Player 2\'s current scores are: \n{p2_scorecard}\n------------------------------')
-            turn_counter += 1
-        elif turn_counter % 2 != 0:
+        elif turn_counter % 2 != 0 and -1 in p1_scorecard.values():
             print('It is player 1\'s turn.')
             game(p1_scorecard)
             print(f'Player 1\'s current scores are: \n{p1_scorecard}\n------------------------------')
-            turn_counter += 1
+        turn_counter += 1
 
     # if turn counter does not evenly divide by 2 AND there is a -1 in the scorecard, it is p1's turn
     # if turn counter evenly divides by 2 AND there is a -1 in the scorecard, it is p2's turn
