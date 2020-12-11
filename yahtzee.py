@@ -29,6 +29,10 @@ def YAHTZEE_BONUS():
     return 100
 
 
+def UPPER_BONUS():
+    return 35
+
+
 def create_scorecard():
     """
     Create a dictionary data structure to track a player's score.
@@ -274,8 +278,18 @@ def calculate_final_score(scorecard: dict) -> int:
     >>> print(calculate_final_score(p2_scorecard))
     261
     """
-    # for every value in scorecard, add it to a sum and return it.
-    pass
+    total = 0
+    for key, value in scorecard.items():
+        total += value
+
+    upper_bonus = 0
+    for upper_score in ['aces', 'twos', 'threes', 'fours', 'fives', 'sixes']:
+        upper_bonus += scorecard[upper_score]
+
+    if upper_bonus > 62:
+        total += UPPER_BONUS()
+
+    return total
 
 
 def announce_winner(score1: int, score2: int):
@@ -300,9 +314,15 @@ def announce_winner(score1: int, score2: int):
     Player 2 scored: 300 points
     Tie game!
     """
-    # print both players' scores first
-    # see which score is greater, and announce winner
-    pass
+    print(f'Player 1 scored: {score1} points')
+    print(f'Player 2 scored: {score2} points')
+
+    if score1 > score2:
+        print('Player 1 wins!')
+    elif score1 < score2:
+        print('Player 2 wins!')
+    else:
+        print('Tie game!')
 
 
 def main():
