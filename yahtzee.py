@@ -80,7 +80,7 @@ def roll_dice(current_hand: list) -> list:
 
 def re_roll(current_hand: list) -> list:
     """
-    Simulate rolling X number of dice depending on player input.
+    Simulate keeping any number of dice from the player's current hand.
 
     Player will be prompted to select which values in the list they wish to keep.
     If the input length is 5, the player has indicated they wish to commit a score. Return the list.
@@ -101,13 +101,14 @@ def re_roll(current_hand: list) -> list:
     print('E.g. If you would like to re-roll your entire hand, press enter.')
     print('--------------------------------------------------------')
     kept_dice = input('Please enter which dice in your hand you would like to keep.')
-    # if the input is 12345, return "commit"
+
     if len(kept_dice) == 5:
         return current_hand
     else:
         kept_dice_list = []
         for die in range(0, len(kept_dice)):
             kept_dice_list.append(current_hand[die - 1])
+        print(f'You chose to keep {kept_dice_list}')
         return kept_dice_list
     # otherwise, for loop over range from 0 to length of the input string
     # each character in the string points to an index in the current_hand list, append those dice to a new list
@@ -331,7 +332,18 @@ def game(scorecard: dict):
     """
     rolls_left = 3
     hand = []
-    while rolls_left > 0:
+    while rolls_left > 1:
+        input('Press enter to roll dice...')
+        roll_dice(hand)
+        rolls_left -= 1
+        print(f'Your current hand is {hand}')
+        re_roll(hand)
+        if len(hand) == 5:
+            commit_score(hand, scorecard)
+        print(f'You have {rolls_left} rolls remaining this turn.')
+    input('Press enter to roll dice...')
+    roll_dice(hand)
+    commit_score(hand, scorecard)
 
 
 def main():
@@ -352,9 +364,11 @@ def main():
     while -1 in p1_scorecard or -1 in p2_scorecard:
         turn_counter = 1
         if turn_counter % 2 == 0:
+            print('It is player 2\'s turn')
             game(p2_scorecard)
             turn_counter += 1
         elif turn_counter % 2 != 0:
+            print('It is player 1\'s turn')
             game(p1_scorecard)
             turn_counter += 1
     # if turn counter does not evenly divide by 2 AND there is a -1 in the scorecard, it is p1's turn
