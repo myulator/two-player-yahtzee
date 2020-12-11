@@ -5,6 +5,27 @@ A00962260
 Date: December 11, 2020
 """
 import random
+from collections import Counter
+
+
+def FULL_HOUSE():
+    return 25
+
+
+def SM_STRAIGHT():
+    return 30
+
+
+def LG_STRAIGHT():
+    return 40
+
+
+def YAHTZEE():
+    return 50
+
+
+def YAHTZEE_BONUS():
+    return 100
 
 
 def create_scorecard():
@@ -116,7 +137,7 @@ def commit_score(current_hand: list, scorecard: dict):
                 committed += 1
             elif score_section == 'yahtzee':
                 if bonus_yahtzee_validator(current_hand):
-                    scorecard['yahtzee bonus'] += 100
+                    scorecard['yahtzee bonus'] += YAHTZEE_BONUS()
                 else:
                     print('Error: You have already recorded a score in the yahtzee section and your current hand does\
                           not contain a yahtzee.')
@@ -147,9 +168,11 @@ def bonus_yahtzee_validator(current_hand: list) -> bool:
     >>> print(bonus_yahtzee_validator([1, 1, 1, 1, 2]))
     False
     """
-
-
-    # or use Counter function from collections module, length of the returned list needs to be 1.
+    # use Counter function from collections module, length of the returned list needs to be 1.
+    if len(Counter(current_hand).values()) == 1:
+        return True
+    else:
+        return False
 
 
 def point_calculator(current_hand: list, hand: str) -> int:
@@ -182,6 +205,7 @@ def point_calculator(current_hand: list, hand: str) -> int:
     # if the hand string is 'aces', count instances of 1 in the list, and multiply by that 1.
     # if the hand string is 'twos', count instances of 2 in the list, and multiply by that 2.
     # do the same for 3s, 4s, 5s, 6s.
+
 
     # if the hand string is 'full house', call the complex hand (full house, 4kind, 3kind) calculator (use regex?).
     # if hand string is yahtzee, validate yahtzee with function.
