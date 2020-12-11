@@ -2,8 +2,9 @@
 COMP 1510 Final Exam
 Michael Yu
 A00962260
-Date: December 4, 2020
+Date: December 11, 2020
 """
+import random
 
 
 def create_scorecard():
@@ -19,7 +20,10 @@ def create_scorecard():
     {'aces': -1, 'twos': -1, 'threes': -1, 'fours': -1, 'fives': -1, 'sixes': -1, '3 of a kind': -1, '4 of a kind': -1,
     'full house': -1, 'small straight': -1, 'large straight': -1, 'yahtzee': -1, 'chance': -1, 'yahtzee bonus': 0}
     """
-    pass
+    scorecard = {'aces': -1, 'twos': -1, 'threes': -1, 'fours': -1, 'fives': -1, 'sixes': -1, '3 of a kind': -1,
+                 '4 of a kind': -1, 'full house': -1, 'small straight': -1, 'large straight': -1, 'yahtzee': -1,
+                 'chance': -1, 'yahtzee bonus': 0}
+    return scorecard
 
 
 def roll_dice(current_hand: list) -> list:
@@ -38,31 +42,45 @@ def roll_dice(current_hand: list) -> list:
     >>> roll_dice([1, 1, 1, 1, 2])
     [1, 1, 1, 1, 2]
     """
-    pass
     # Note: This does not need to return the list: can just modify the list. Unittests will need to be edited.
     # While the current_hand list length is less than 5:
     # Append a random integer between 1 and 6 to the list
     # Sort the list in ascending order
+    while len(current_hand) < 5:
+        current_hand.append(random.randint(1, 6))
+    current_hand.sort()
 
 
 def re_roll(current_hand: list) -> list:
     """
     Simulate rolling X number of dice depending on player input.
 
-    Player will be prompted to select which values in the list they wish to keep. These values will be added to a list.
-    If the list length is 5, the player has indicated they wish to commit a score. Return "commit".
-    If the list length is less than 5, return the list.
+    Player will be prompted to select which values in the list they wish to keep.
+    If the input length is 5, the player has indicated they wish to commit a score. Return the list.
+    If the input length is less than 5, add the desired dice to a new list. Return the list.
 
     :param current_hand: a list representing face values of rolled dice.
     :precondition: Hand must contain 5 integers between 1 and 6 inclusively.
                     Numbers in the list should appear in ascending order.
-    :postcondition: Direct player to commit their score or returns their new hand after re-rolling dice.
-    :return: either a string or a list of integers
+    :postcondition: Returns the player's hand after re-rolling/keeping all dice.
+    :return: a list of integers
     """
     pass
     # This does not need to return the list: can just modify the list. Unittests will need to be edited.
     # Ask player to input the dice they wish to keep e.g "12345" would mean they wish to keep all dice.
+    print('------------Selecting which dice to keep------------')
+    print('E.g. If you would like to keep your entire hand, input 12345')
+    print('E.g. If you would only like to keep the 1st, 3rd, and 5th dice in your hand, input 135')
+    print('----------------------------------------------------')
+    kept_dice = input('Please enter which dice in your hand you would like to keep.')
     # if the input is 12345, return "commit"
+    if len(kept_dice) == 5:
+        return current_hand
+    else:
+        kept_dice_list = []
+        for die in range(0, len(kept_dice)):
+            kept_dice_list.append(die)
+        return kept_dice_list
     # otherwise, for loop over range from 0 to length of the input string
     # each character in the string points to an index in the current_hand list, append those dice to a new list
     # return the new list
