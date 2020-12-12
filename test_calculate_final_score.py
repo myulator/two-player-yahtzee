@@ -26,4 +26,3 @@ class Test(TestCase):
         actual_return = calculate_final_score(argument2)
         expected_return = 249
         self.assertEqual(expected_return, actual_return, "Player achieves upper section bonus.")
-

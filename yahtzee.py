@@ -135,7 +135,7 @@ def re_roll(current_hand: list) -> list:
     print('----------------------------How to select which dice to keep------------------------------')
     print('E.g. If you would like to keep your entire hand, input 12345')
     print('E.g. If you would like to keep the only the 1st, 3rd, and 5th dice in your hand, input 135')
-    print('E.g. If you would like to re-roll your entire hand, press enter.')
+    print('E.g. If you would like to re-roll your entire hand, simply press enter.')
     print('------------------------------------------------------------------------------------------')
     while True:
         try:
@@ -168,7 +168,7 @@ def commit_score(current_hand: list, scorecard: dict):
                     Player input should be a valid score section in Yahtzee.
     :postcondition: Calculates and appends point value into current player's scorecard.
     """
-    display_valid_sections()
+    print_valid_sections()
     while True:
         try:
             score_section = (input('In which section would you like to enter your score?: ')).strip().lower()
@@ -188,14 +188,16 @@ def commit_score(current_hand: list, scorecard: dict):
             print('Error: That is not a valid section in the Yahtzee scorecard. Please try again.')
 
 
-def display_valid_sections():
+def print_valid_sections():
     """
     Print a list of all valid sections in a Yahtzee scorecard.
 
     This allows the user to visualize all the possible places to score. Recognition is better than recall.
 
-    >>> display_valid_sections()
-    ------------------------
+    :postcondition: Always prints the same list of valid Yahtzee score sections, regardless of player's scorecard.
+
+    >>> print_valid_sections()
+    ------------------------------
     Yahtzee score sections:
     - aces
     - twos
@@ -210,7 +212,7 @@ def display_valid_sections():
     - large straight
     - yahtzee
     - chance
-    ------------------------
+    ------------------------------
     """
     sections = ['aces', 'twos', 'threes', 'fours', 'fives', 'sixes', '3 of a kind', '4 of a kind', 'full house',
                 'small straight', 'large straight', 'yahtzee', 'chance']
@@ -388,6 +390,7 @@ def announce_winner(score1: int, score2: int):
         print('Player 2 wins!')
     else:
         print('Tie game!')
+    print('Thank you for playing!')
 
 
 def game(scorecard: dict):
@@ -412,6 +415,39 @@ def game(scorecard: dict):
     commit_score(hand, scorecard)
 
 
+def print_scorecard(scorecard: dict):
+    """
+    Print the current player's scorecard.
+
+    :param scorecard: a dictionary representing a player's scorecard.
+    :precondition: scorecard should contain string keys paired with integer values.
+    :postcondition: prints the current scores that are stored in the player's scorecard.
+
+    >>> scorecard1 = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30, \
+    '4 of a kind': 30, 'full house': 25, 'small straight': 30, 'large straight': 40, 'yahtzee': 50, \
+    'chance': 24, 'yahtzee bonus': 0}
+    >>> print_scorecard(scorecard1)
+    aces: 5
+    twos: 10
+    threes: 15
+    fours: 20
+    fives: 25
+    sixes: 30
+    3 of a kind: 30
+    4 of a kind: 30
+    full house: 25
+    small straight: 30
+    large straight: 40
+    yahtzee: 50
+    chance: 24
+    yahtzee bonus: 0
+    ------------------------------
+    """
+    for key, value in scorecard.items():
+        print(f'{key}: {value}')
+    print('------------------------------')
+
+
 def main():
     """
     Drives the program.
@@ -420,24 +456,24 @@ def main():
     p1_scorecard = create_scorecard()
     p2_scorecard = create_scorecard()
 
-    # while loop: main program keeps game going as long as there is at least one -1 value in either player's scorecard.
     turn_counter = 1
     while -1 in p1_scorecard.values() or -1 in p2_scorecard.values():
         # these conditions keep track of who's turn it is, and if a player finishes early, they stop taking turns.
         if turn_counter % 2 == 0 and -1 in p2_scorecard.values():
             print('It is player 2\'s turn.')
             game(p2_scorecard)
-            print(f'Player 2\'s current scores are: \n{p2_scorecard}\n------------------------------')
+            print('------------------------------\n Player 2\'s current scores are: ')
+            print_scorecard(p2_scorecard)
         elif turn_counter % 2 != 0 and -1 in p1_scorecard.values():
             print('It is player 1\'s turn.')
             game(p1_scorecard)
-            print(f'Player 1\'s current scores are: \n{p1_scorecard}\n------------------------------')
+            print('------------------------------\nPlayer 1\'s current scores are: ')
+            print_scorecard(p1_scorecard)
         turn_counter += 1
 
     p1_total = calculate_final_score(p1_scorecard)
     p2_total = calculate_final_score(p2_scorecard)
     announce_winner(p1_total, p2_total)
-    print('Thank you for playing!')
 
 
 if __name__ == "__main__":

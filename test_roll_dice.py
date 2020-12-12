@@ -36,7 +36,7 @@ class TestRollDice(TestCase):
     def test_roll_dice_four(self, mock_random):
         actual_hand = [1, 4, 5, 5]
         roll_dice(actual_hand)
-        expected_hand  = [1, 4, 5, 5, 6]
+        expected_hand = [1, 4, 5, 5, 6]
         self.assertEqual(expected_hand, actual_hand, "Initial hand has 4 dice.")
 
     @patch('random.randint', return_value=6)
