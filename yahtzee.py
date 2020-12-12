@@ -14,6 +14,9 @@ def FULL_HOUSE() -> int:
     Return the constant point value awarded for rolling a full house.
 
     :return: 25
+
+    >>> print(FULL_HOUSE())
+    25
     """
     return 25
 
@@ -23,6 +26,9 @@ def SM_STRAIGHT() -> int:
     Return the constant point value awarded for rolling a small straight.
 
     :return: 30
+
+    >>> print(SM_STRAIGHT())
+    30
     """
     return 30
 
@@ -32,6 +38,9 @@ def LG_STRAIGHT():
     Return the constant point value awarded for rolling a large straight.
 
     :return: 40
+
+    >>> print(LG_STRAIGHT())
+    40
     """
     return 40
 
@@ -41,6 +50,8 @@ def YAHTZEE():
     Return the constant point value awarded for rolling a yahtzee.
 
     :return: 50
+    >>> print(YAHTZEE())
+    50
     """
     return 50
 
@@ -50,6 +61,9 @@ def YAHTZEE_BONUS():
     Return the constant bonus value awarded for achieving additional yahtzees.
 
     :return: 100
+
+    >>> print(YAHTZEE_BONUS())
+    100
     """
     return 100
 
@@ -59,6 +73,9 @@ def UPPER_BONUS():
     Return the constant bonus value awarded for achieving an upper section score of 63 or greater in Yahtzee.
 
     :return: 35
+
+    >>> print(UPPER_BONUS())
+    35
     """
     return 35
 
@@ -151,26 +168,57 @@ def commit_score(current_hand: list, scorecard: dict):
                     Player input should be a valid score section in Yahtzee.
     :postcondition: Calculates and appends point value into current player's scorecard.
     """
-    sections = ['aces', 'twos', 'threes', 'fours', 'fives', 'sixes', '3 of a kind', '4 of a kind', 'full house',
-                'small straight', 'large straight', 'yahtzee', 'chance']
-    print('Yahtzee score sections:')
-    for count, item in enumerate(sections, 1):
-        print(f'- {item}')
-
+    display_valid_sections()
     while True:
         try:
             score_section = (input('In which section would you like to enter your score?: ')).strip().lower()
             if scorecard[score_section] == -1:
                 scorecard[score_section] = point_calculator(current_hand, score_section)
                 return
-            elif score_section == 'yahtzee':
-                if yahtzee_validator(current_hand):
+            elif scorecard[score_section] != -1 and score_section == 'yahtzee':
+                if yahtzee_validator(current_hand) is True:
                     scorecard['yahtzee bonus'] += YAHTZEE_BONUS()
+                    return
                 else:
-                    print('Error: You have already recorded a score in the yahtzee section and your current hand does\
-                          not contain a yahtzee.')
+                    print('Error: You have already recorded a score in the yahtzee section and your current hand does '
+                          'not contain a yahtzee.')
+            else:
+                print(f'Error: You have already recorded a score in {score_section}')
         except KeyError:
-            print('That is not a valid section in the Yahtzee scorecard. Please try again.')
+            print('Error: That is not a valid section in the Yahtzee scorecard. Please try again.')
+
+
+def display_valid_sections():
+    """
+    Print a list of all valid sections in a Yahtzee scorecard.
+
+    This allows the user to visualize all the possible places to score. Recognition is better than recall.
+
+    >>> display_valid_sections()
+    ------------------------
+    Yahtzee score sections:
+    - aces
+    - twos
+    - threes
+    - fours
+    - fives
+    - sixes
+    - 3 of a kind
+    - 4 of a kind
+    - full house
+    - small straight
+    - large straight
+    - yahtzee
+    - chance
+    ------------------------
+    """
+    sections = ['aces', 'twos', 'threes', 'fours', 'fives', 'sixes', '3 of a kind', '4 of a kind', 'full house',
+                'small straight', 'large straight', 'yahtzee', 'chance']
+    print('------------------------')
+    print('Yahtzee score sections:')
+    for count, item in enumerate(sections, 1):
+        print(f'- {item}')
+    print('------------------------')
 
 
 def yahtzee_validator(current_hand: list) -> bool:
@@ -386,10 +434,6 @@ def main():
             game(p1_scorecard)
             print(f'Player 1\'s current scores are: \n{p1_scorecard}\n------------------------------')
         turn_counter += 1
-
-    # if turn counter does not evenly divide by 2 AND there is a -1 in the scorecard, it is p1's turn
-    # if turn counter evenly divides by 2 AND there is a -1 in the scorecard, it is p2's turn
-    # end of turn, increment turn counter by 1
 
     p1_total = calculate_final_score(p1_scorecard)
     p2_total = calculate_final_score(p2_scorecard)
