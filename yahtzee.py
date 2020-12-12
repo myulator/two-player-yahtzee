@@ -423,10 +423,10 @@ def print_scorecard(scorecard: dict):
     :precondition: scorecard should contain string keys paired with integer values.
     :postcondition: prints the current scores that are stored in the player's scorecard.
 
-    >>> scorecard1 = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30, \
+    >>> score_card = {'aces': 5, 'twos': 10, 'threes': 15, 'fours': 20, 'fives': 25, 'sixes': 30, '3 of a kind': 30, \
     '4 of a kind': 30, 'full house': 25, 'small straight': 30, 'large straight': 40, 'yahtzee': 50, \
     'chance': 24, 'yahtzee bonus': 0}
-    >>> print_scorecard(scorecard1)
+    >>> print_scorecard(score_card)
     aces: 5
     twos: 10
     threes: 15
