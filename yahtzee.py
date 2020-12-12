@@ -263,8 +263,7 @@ def straights_calculator(current_hand: list, hand: str) -> int:
     0
     """
     str_hand = "".join(map(str, current_hand))
-    print(str_hand)
-    sm_straight_regex = re.compile(r'1234|2345|3456|^12234$|^12334$|^23345$|^23445$|^34456$|^34556$|')
+    sm_straight_regex = re.compile(r'1234|2345|3456|^12234$|^12334$|^23345$|^23445$|^34456$|^34556$')
     lg_straight_regex = re.compile(r'12345|23456')
     if hand == 'small straight':
         if sm_straight_regex.search(str_hand):

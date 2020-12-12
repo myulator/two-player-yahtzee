@@ -14,6 +14,11 @@ class TestStraightsCalculator(TestCase):
         self.assertEqual(expected_return, actual_return, "Player has a small straight with duplicate in the middle.")
 
     def test_straights_calculator_small_middle_end(self):
+        actual_return = straights_calculator([2, 3, 4, 4, 5], 'small straight')
+        expected_return = 30
+        self.assertEqual(expected_return, actual_return, "Player has a small straight with duplicate in the middle.")
+
+    def test_straights_calculator_small_middle_alternative(self):
         actual_return = straights_calculator([1, 2, 3, 3, 4], 'small straight')
         expected_return = 30
         self.assertEqual(expected_return, actual_return, "Player has a small straight with duplicate in the middle.")
