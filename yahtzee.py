@@ -7,6 +7,7 @@ Date: December 11, 2020
 import random
 import re
 from collections import Counter
+from math import prod
 
 
 def FULL_HOUSE() -> int:
@@ -197,7 +198,7 @@ def print_valid_sections():
     :postcondition: Always prints the same list of valid Yahtzee score sections, regardless of player's scorecard.
 
     >>> print_valid_sections()
-    ------------------------------
+    ------------------------
     Yahtzee score sections:
     - aces
     - twos
@@ -212,7 +213,7 @@ def print_valid_sections():
     - large straight
     - yahtzee
     - chance
-    ------------------------------
+    ------------------------
     """
     sections = ['aces', 'twos', 'threes', 'fours', 'fives', 'sixes', '3 of a kind', '4 of a kind', 'full house',
                 'small straight', 'large straight', 'yahtzee', 'chance']
@@ -309,7 +310,7 @@ def point_calculator(current_hand: list, hand: str) -> int:
     upper_section = ['aces', 'twos', 'threes', 'fours', 'fives', 'sixes']
     if hand in upper_section:
         return current_hand.count(upper_section.index(hand) + 1) * (upper_section.index(hand) + 1)
-    if hand == 'full house' and len(Counter(current_hand).values()) == 2:
+    if hand == 'full house' and prod(Counter(current_hand).values()) == 6:
         return FULL_HOUSE()
     if hand == '3 of a kind' and any(value > 2 for value in Counter(current_hand).values()):
         return sum(current_hand)
@@ -370,16 +371,19 @@ def announce_winner(score1: int, score2: int):
     Player 1 scored: 279 points
     Player 2 scored: 261 points
     Player 1 wins!
+    Thank you for playing!
 
     >>> announce_winner(279, 300)
     Player 1 scored: 279 points
     Player 2 scored: 300 points
     Player 2 wins!
+    Thank you for playing!
 
     >>> announce_winner(300, 300)
     Player 1 scored: 300 points
     Player 2 scored: 300 points
     Tie game!
+    Thank you for playing!
     """
     print(f'Player 1 scored: {score1} points')
     print(f'Player 2 scored: {score2} points')
@@ -477,4 +481,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import doctest
+    doctest.testmod()
