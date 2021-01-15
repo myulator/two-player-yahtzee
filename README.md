@@ -1,6 +1,6 @@
-# 2 Player Yahtzee | BCIT CST COMP 1510 (Programming Methods) Final Hackathon		
-Name: Michael Yu
-Date: December 2020
+# 2 Player Yahtzee | BCIT CST COMP 1510 (Programming Methods) Final Hackathon		  
+Name: Michael Yu    
+Date: December 2020   
 
 This program was developed during the 6-hour final hackathon for COMP 1510 at BCIT, supervised by Chris Thompson.
 
